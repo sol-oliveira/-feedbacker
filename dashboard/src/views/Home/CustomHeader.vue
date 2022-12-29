@@ -1,6 +1,7 @@
 <!-- eslint-disable no-undef -->
 <script setup>
-const emits = defineEmits(['login']);
+const emit = defineEmits(['login', 'create-account']);
+
 </script>
 <template>
   <header class="header">
@@ -11,11 +12,13 @@ const emits = defineEmits(['login']);
         </div>
 
         <div class="flex">
-          <button class="px-6 py-2 font-bold rounded-full text-white focus:outline-none">
+          <button
+           @click="() => emit('create-account')"
+           class="px-6 py-2 font-bold rounded-full text-white focus:outline-none">
             Crie uma conta
           </button>
           <button class="px-6 py-2 font-bold bg-white rounded-full text-brand-main focus:outline-none"
-            @click="() => emits('login')">
+            @click="() => emit('login')">
             Entrar
           </button>
         </div>

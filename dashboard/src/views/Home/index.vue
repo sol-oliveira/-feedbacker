@@ -4,7 +4,7 @@ import { onMounted } from 'vue';
 import { useRouter } from 'vue-router'
 import CustomHeader from './CustomHeader.vue';
 import Contact from './Contact.vue';
-import { useModal } from '@/hooks/useModal';
+import useModal from '@/hooks/useModal';
 
 const router = useRouter()
 const modal = useModal()
@@ -15,7 +15,11 @@ const handleLogin = () => {
   })
 }
 
-const handleAccountCreate = () => { }
+const handleAccountCreate = () => {
+  modal.open({
+    component: 'ModalCreateAccount'
+  })
+ }
 
 onMounted(() => {
   const token = window.localStorage.getItem('token')

@@ -1,10 +1,10 @@
 <script setup >
-import { ModalFactory } from './components/ModalFactory/index.vue';
+import ModalFactory  from '@/components/ModalFactory';
 
 </script>
 <template>
-  <ModalFactory />
   <router-view/>
+  <ModalFactory />
 </template>
 
 

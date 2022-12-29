@@ -1,16 +1,22 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <script setup>
+import useModal from '@/hooks/useModal';
 import { reactive, onMounted, onBeforeUnmount, defineAsyncComponent  } from 'vue';
-import useModal from '@/hooks/useModal.js'
 
 const ModalLogin = defineAsyncComponent(() => import('@/components/ModalLogin'))
+const ModalCreateAccount = defineAsyncComponent(() => import('@/components/ModalCreateAccount'))
 const modal = useModal()
 
 const DEFAULT_WIDTH = 'w-3/4 lg:w-1/3'
 
+const modalComponent = {
+   ModalLogin,
+   ModalCreateAccount
+}
+
 const state = reactive({
   isActive: false,
-  component: { ModalLogin },
+  component: {} ,
   props: {},
   width: DEFAULT_WIDTH
 })
@@ -22,12 +28,9 @@ const resetModal = () => {
 
 }
 
-
 const handleModalToogle = (payload) => {
-  console.log(payload);
 
   if(!payload.status) resetModal
-
   if (payload.status) {
     state.component = payload.component
     state.props = payload.props
@@ -37,11 +40,11 @@ const handleModalToogle = (payload) => {
 }
 
 onMounted(() => {
-  modal.open(handleModalToogle)
+  modal.listen(handleModalToogle)
 })
 
 onBeforeUnmount(() => {
-  modal.close(handleModalToogle)
+  modal.off(handleModalToogle)
 })
 </script>
 
@@ -59,12 +62,13 @@ onBeforeUnmount(() => {
         <div
           class="flex flex-col overflow-hidden bg-white rounded-lg animate__animated animate__fadeInDown animate__faster">
           <div class="flex flex-col px-12 py-10 bg-white">
-            <component :is="state.component" />
+            <component :is="modalComponent[state.component]"/>
           </div>
         </div>
       </div>
     </div>
-  </teleport>
+    </teleport>
+
 </template>
 <style lang="scss" scoped>
 

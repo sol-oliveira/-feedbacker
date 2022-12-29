@@ -1,25 +1,23 @@
-import { defineStore } from 'pinia'
-import { ref } from 'vue';
+import bus from '../utils/bus'
 
-export const useModal = defineStore('modal', () => {
+const EVENT_NAME = 'modal:toggle'
 
-  const isActive = ref(false);
-
-  function open () {
-    isActive.value = true
+export default function useModal () {
+  function open (payload = {}) {
+    bus.emit(EVENT_NAME, { status: true, ...payload })
   }
 
-  function close () {
-    isActive.value = false
+  function close (payload = {}) {
+    bus.emit(EVENT_NAME, { status: false, ...payload })
   }
 
-  // function listen (fn) {
-  //   console.log(fn)
-  // }
+  function listen (fn) {
+    bus.on(EVENT_NAME, fn)
+  }
 
-  // function off (fn) {
-  //   console.log(fn)
-  // }
+  function off (fn) {
+    bus.off(EVENT_NAME, fn)
+  }
 
-    return { open, close  }
-})
+  return { open, close, listen, off }
+}
