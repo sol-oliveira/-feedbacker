@@ -58,6 +58,7 @@ onBeforeUnmount(() => {
       <div
         class="fixed mx-10"
         :class="state.width"
+        @click.stop
         >
         <div
           class="flex flex-col overflow-hidden bg-white rounded-lg animate__animated animate__fadeInDown animate__faster">

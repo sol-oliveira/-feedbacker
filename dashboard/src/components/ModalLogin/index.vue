@@ -1,4 +1,77 @@
 <!-- eslint-disable vue/multi-word-component-names -->
+<script setup>
+import { reactive } from 'vue';
+import { useRouter } from 'vue-router'
+import { useToast } from 'vue-toastification'
+import { useField } from 'vee-validate'
+import services from '../../services'
+import useModal from '@/hooks/useModal'
+import { validateEmptyAndLength3, validateEmptyAndEmail } from '../../utils/validators'
+
+const modal = useModal()
+const router = useRouter()
+const toast = useToast()
+
+const {
+  value: emailValue,
+  errorMessage: emailErrorMessage
+} = useField('email', validateEmptyAndEmail)
+
+const {
+  value: passwordValue,
+  errorMessage: passwordErrorMessage
+} = useField('password', validateEmptyAndLength3)
+
+const state = reactive({
+  hasErrors: false,
+  isLoading: false,
+  email: {
+    value: emailValue,
+    errorMessage: emailErrorMessage
+  },
+  password: {
+    value: passwordValue,
+    errorMessage: passwordErrorMessage
+  }
+})
+
+const close = () => {
+  return modal.close();
+}
+
+const handleSubmit  = async () => {
+  try {
+        toast.clear();
+        state.isLoading = true
+        const { data, errors } = await services.auth.login({
+          email: state.email.value,
+          password: state.password.value
+        })
+        if (!errors) {
+          window.localStorage.setItem('token', data.token)
+          router.push({ name: 'Feedbacks' })
+          state.isLoading = false
+          modal.close()
+          return
+        }
+        if (errors.status === 404) {
+           toast.error('E-mail não encontrado')
+        }
+        if (errors.status === 401) {
+           toast.error('E-mail/senha inválidos')
+        }
+        if (errors.status === 400) {
+           toast.error('Ocorreu um erro ao fazer o login')
+        }
+        state.isLoading = false
+      } catch (error) {
+        state.isLoading = false
+        state.hasErrors = !!error
+        toast.error('Ocorreu um erro ao fazer o login')
+      }
+}
+</script>
+
 <template>
   <div class="flex justify-between" id="modal-login">
     <h1 class="text-4xl font-black text-gray-800">
@@ -71,44 +144,6 @@
     </form>
   </div>
 </template>
-
-<script setup>
-import useModal from '@/hooks/useModal';
-import { useField } from 'vee-validate';
-import { reactive } from 'vue';
-import { validateEmptyAndLength3, validateEmptyAndEmail } from '../../utils/validators'
-
-const modal = useModal()
-
-const {
-  value: emailValue,
-  errorMessage: emailErrorMessage
-} = useField('email', validateEmptyAndEmail)
-
-const {
-  value: passwordValue,
-  errorMessage: passwordErrorMessage
-} = useField('password', validateEmptyAndLength3)
-
-const state = reactive({
-  hasErrors: false,
-  isLoading: false,
-  email: {
-    value: emailValue,
-    errorMessage: emailErrorMessage
-  },
-  password: {
-    value: passwordValue,
-    errorMessage: passwordErrorMessage
-  }
-})
-
-const close = () => {
-  return modal.close();
-}
-
-const handleSubmit  = () => { }
-</script>
 
 <style lang="scss" scoped>
 
