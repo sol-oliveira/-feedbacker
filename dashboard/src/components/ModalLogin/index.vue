@@ -7,6 +7,7 @@ import { useField } from 'vee-validate'
 import services from '../../services'
 import useModal from '@/hooks/useModal'
 import { validateEmptyAndLength3, validateEmptyAndEmail } from '../../utils/validators'
+import  Icon  from '../Icon/index.vue'
 
 const modal = useModal()
 const router = useRouter()
@@ -138,7 +139,7 @@ const handleSubmit  = async () => {
         }"
         class="px-8 py-3 mt-10 text-2xl font-bold text-white rounded-full bg-brand-main focus:outline-none transition-all duration-150"
       >
-        <icon v-if="state.isLoading" name="loading" class="animate-spin" />
+        <Icon v-if="state.isLoading" name="Loading" class="animate-spin" />
         <span v-else>Entrar</span>
       </button>
     </form>
