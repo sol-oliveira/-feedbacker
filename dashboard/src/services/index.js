@@ -34,11 +34,10 @@ httpClient.interceptors.request.use(async config => {
   return config
 })
 
-httpClient.interceptors.response.use((response) => {
+httpClient.interceptors.response.use(async (response) => {
   store.setGlobalLoading(false)
   return response
 }, (error) => {
-  console.log(error)
   const canThrowAnError = error.request.status === 0 ||
     error.request.status === 500
 

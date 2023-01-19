@@ -1,31 +1,26 @@
-import { defineStore } from "pinia";
-import { reactive } from "vue";
+import { reactive } from 'vue'
 
-export const useUserStore = defineStore('user',() => {
+const userInitialState = {
+  currentUser: {}
+}
 
-  const userInitialState = {
-    currentUser: {}
-  }
+let state = reactive(userInitialState)
 
-  let state = reactive(userInitialState)
+export default state
 
-  function setCurrentUser(value) {
-    Object.assign(state.currentUser, value);
-  }
+export function resetUserStore () {
+  state = reactive(userInitialState)
+}
 
-  function cleanCurrentUser() {
-    Object.assign(state.currentUser, {});
-  }
+export function cleanCurrentUser () {
+  state.currentUser = {}
+}
 
-  function setApiKey(apiKey) {
-    const currentUser = { ...state.value, apiKey };
-    Object.assign(state.currentUser, currentUser);
-  }
+export function setCurrentUser (user) {
+  state.currentUser = user
+}
 
-  return {
-    setCurrentUser,
-    cleanCurrentUser,
-    setApiKey,
-    state
-   };
-});
+export function setApiKey (apiKey) {
+  const currentUser = { ...state.currentUser, apiKey }
+  state.currentUser = currentUser
+}

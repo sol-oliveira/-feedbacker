@@ -1,8 +1,8 @@
 import { readonly } from "vue";
-import { useUserStore } from "./user";
+import  UserModule from "./user";
 import { useGlobalLoading } from "./global";
 
 export default readonly({
-  User: useUserStore(),
+  User: UserModule,
   Global: useGlobalLoading(),
 });

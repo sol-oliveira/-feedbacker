@@ -3,11 +3,11 @@ import { watch } from 'vue'
 import ModalFactory  from '@/components/ModalFactory';
 import { useRouter, useRoute } from 'vue-router';
 import services from './services';
-import { useUserStore } from './store/user';
+import { setCurrentUser } from './store/user';
 
 const router = useRouter()
 const route = useRoute()
-const { setCurrentUser }  = useUserStore()
+
 
 watch(() => route.path, async () => {
   if (route.meta.hasAuth) {

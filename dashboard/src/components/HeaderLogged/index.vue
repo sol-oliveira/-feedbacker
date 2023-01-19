@@ -31,15 +31,9 @@
  import useStore from '@/hooks/useStore'
 import { computed } from '@vue/reactivity'
 import { useRouter } from 'vue-router'
-// import { useUserStore } from '@/store/user';
 
 const router = useRouter()
  const store = useStore('User')
-
-
-// const  store   = useUserStore();
-
-console.log(store.state.currentUser)
 
 const logoutLabel = computed(() => {
   if (!store.currentUser.name) {
