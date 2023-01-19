@@ -18,7 +18,6 @@ watch(() => route.path, async () => {
     }
     const { data } = await services.users.getMe()
     setCurrentUser(data)
-
   }
 })
 

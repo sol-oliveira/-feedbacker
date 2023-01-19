@@ -2,9 +2,9 @@ import axios from 'axios'
 import AuthService from './auth'
 import UsersService from './users'
 import router from '../router'
-import { useGlobalLoading } from '@/store/global'
+import useStore from '@/hooks/useStore'
 
-const   globalLoading   = useGlobalLoading();
+const store = useStore('Global')
 
 const API_ENVS = {
   production: '',
@@ -13,29 +13,37 @@ const API_ENVS = {
 }
 
 const httpClient = axios.create({
-  baseURL: API_ENVS.local
-})
+  baseURL: API_ENVS.local,
+  headers: {
+    "Content-Type": "application/json",
+    "Acess-Control-Allow-Origin": "*",
+    Authorization: ``,
+    Accept: "application/json",
+  },
+});
 
-httpClient.interceptors.request.use(config => {
-  globalLoading.setGlobalLoading(true)
+
+httpClient.interceptors.request.use(async config => {
+
+  store.setGlobalLoading(true)
   const token = window.localStorage.getItem('token')
-
   if (token) {
-    config.headers.common.Authorization = `Bearer ${token}`
+    config.headers['Authorization'] = `Bearer ${token}`
   }
 
   return config
 })
 
 httpClient.interceptors.response.use((response) => {
-  globalLoading.setGlobalLoading(false)
+  store.setGlobalLoading(false)
   return response
 }, (error) => {
+  console.log(error)
   const canThrowAnError = error.request.status === 0 ||
     error.request.status === 500
 
   if (canThrowAnError) {
-    globalLoading.setGlobalLoading(false)
+    store.setGlobalLoading(false)
     throw new Error(error.message)
   }
 
@@ -44,7 +52,7 @@ httpClient.interceptors.response.use((response) => {
     router.push({ name: 'Home' })
   }
 
-  globalLoading.setGlobalLoading(false)
+  store.setGlobalLoading(false)
   return error
 })
 
