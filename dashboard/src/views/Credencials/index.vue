@@ -12,10 +12,37 @@
     Guia de instalação e geração de suas credenciais
   </p>
 </div>
+<div class="flex justify-center w-full h-full">
+  <div class="flex flex-col w-4/5 max-w-6xl py-10">
+    <h1 class="text-3xl font-black text-brand-darkgray">
+        Instalação e configuração
+    </h1>
+    <p class="mt-10 text-lg text-gray-800 font-regular">
+      Este aqui é a sua chave de api
+    </p>
+
+    <div class="flex py-3 pl-5 mt-2 rounded justify-between items-center bg-brand-gray w-full lg:w-1/2">
+     <span>{{ store.currentUser.apiKey }}</span>
+     <div class="flex ml-20 mr-5">
+      <Icon name="Copy" :color="brand.graydark" :size="24" class="cursor-pointer" />
+      <Icon name="Loading" :color="brand.graydark" :size="24" class="cursor-pointer ml-3" />
+     </div>
+    </div>
+  </div>
+
+</div>
+
 </template>
 
 <script setup>
-import HeaderLogged from '../../components/HeaderLogged'
+import HeaderLogged from '@/components/HeaderLogged'
+import  Icon  from '@/components/Icon'
+
+import useStore from '@/hooks/useStore'
+import palette from '../../../palette'
+
+const store = useStore('User')
+const { brand } = palette;
 
 </script>
 

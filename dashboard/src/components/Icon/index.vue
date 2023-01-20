@@ -2,6 +2,7 @@
 <!-- eslint-disable no-undef -->
 <script setup>
 import Loading from './Loading.vue'
+import Copy from './Copy.vue'
 
 
 const props  = defineProps({
@@ -12,13 +13,14 @@ const props  = defineProps({
 });
 
 const iconComponent = {
-  Loading
+  Loading,
+  Copy
 }
 </script>
 
 <template>
   <div>
-    <component :is="iconComponent[props.name]" v-bind='props'/>
+    <component :is="iconComponent[props.name]" v-bind="$attrs"/>
   </div>
 </template>
 
