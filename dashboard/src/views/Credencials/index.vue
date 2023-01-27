@@ -28,6 +28,12 @@
       <Icon name="Loading" :color="brand.graydark" :size="24" class="cursor-pointer ml-3" />
      </div>
     </div>
+    <p class="mt-5 text-lg text-gray-800 font-regular">
+        Coloque o script abaixo no seu site para começar a receber feedbacks
+      </p>
+      <div class="py-3 pl-5 pr-20 mt-2 rounded bg-brand-gray w-full lg:w-2/3 overflow-x-scroll">
+      <pre>&lt;script src="https://sol-oliveira-feedbacker-widget.netlify.app?api_key=fcd5015c-10d3-4e9c-b395-ec7ed8850165" &gt;&lt;/script&gt;</pre>
+      </div>
   </div>
 
 </div>
