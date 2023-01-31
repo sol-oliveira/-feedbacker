@@ -88,8 +88,8 @@ watch(() => store.User.currentUser, () => {
         <span v-else>{{ store.User.currentUser.apiKey }}</span>
 
         <div class="flex ml-20 mr-5" v-if="!state.hasError">
-          <icon @click.prevent="handleCopy" name="Copy" :color="brand.graydark" :size="24" class="cursor-pointer" />
-          <icon @click.prevent="handleGenerateApikey" name="Loading" :color="brand.graydark" :size="24"
+          <icon @click.stop="handleCopy" name="Copy" :color="brand.graydark" :size="24" class="cursor-pointer" />
+          <icon @click.stop="handleGenerateApikey" name="Loading" :color="brand.graydark" :size="24"
             class="cursor-pointer ml-3" />
         </div>
 
